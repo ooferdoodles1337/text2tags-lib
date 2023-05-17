@@ -84,5 +84,26 @@ class TestCorrectTags(unittest.TestCase):
         self.assertEqual(correct_tags(tags, tag_list=load_tags()), corrected_tags)
 
 
+class TestTaggerLlama(unittest.TestCase):
+    def setUp(self):
+        # Initialize the TaggerLlama instance with necessary parameters
+        self.tagger = TaggerLlama(
+            model_path="models\ggml-model-q4_0.bin", tag_list=load_tags()
+        )
+
+    def test_predict_tags(self):
+        # Define a test prompt
+        prompt = "Minato aqua, a hololive vtuber with pink and blue streaked hair in a maid outfit"
+
+        # Call the predict_tags method
+        result = self.tagger.predict_tags(prompt)
+
+        # Assert the result meets the expected conditions
+        self.assertIsInstance(result, list)
+        self.assertTrue(all(isinstance(tag, str) for tag in result))
+        self.assertGreater(len(result), 0)
+        # Add more assertions as needed
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -17,12 +17,8 @@ def download_model(
 
 
 def load_tags():
-    lookups_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..", "lookups"
-    )
-    tags_file = os.path.join(lookups_dir, "tags.txt")
     try:
-        with open(tags_file, "r") as f:
+        with open(os.path.join("lookups", "tags.txt"), "r") as f:
             tag_dict = [line.strip() for line in f]
         return tag_dict
     except IOError as e:
@@ -80,7 +76,7 @@ class TaggerLlama(Llama):
         lora_base: str | None = None,
         lora_path: str | None = None,
         verbose: bool = True,
-        tag_list = load_tags()
+        tag_list=load_tags(),
     ):
         super().__init__(
             model_path,
@@ -145,6 +141,7 @@ class TaggerLlama(Llama):
             mirostat_eta=mirostat_eta,
         )
         raw_preds = output["choices"][0]["text"]
+        print(raw_preds)
         pred_tags = [x.strip() for x in raw_preds.split("### Tags:")[-1].split(",")]
         corrected_tags = correct_tags(pred_tags, self.tag_list)
         return corrected_tags
