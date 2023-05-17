@@ -9,8 +9,8 @@ from llama_cpp import Llama
 
 
 def download_model(
-    model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/ggml-model-q4_2.bin",
-    save_path=os.path.join("models", "ggml-model-q4_2.bin"),
+    model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/ggml-model-q4_0.bin",
+    save_path=os.path.join("models", "ggml-model-q4_0.bin"),
 ):
     os.makedirs("models", exist_ok=True)
     wget.download(model_url, out=save_path)
