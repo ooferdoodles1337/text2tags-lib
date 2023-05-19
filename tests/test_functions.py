@@ -28,7 +28,7 @@ from text2tags.functions import *
 class TestTaggerLlama(unittest.TestCase):
     def setUp(self):
         self.llama = TaggerLlama(
-            model_path=os.path.join('models','ggml-model-q4_0.bin'), tag_list=["tag1", "tag2"])
+            model_path=os.path.join('models','ggml-model-q4_0.bin'))
 
     def test_preprocess_tag(self):
         preprocessed_tag = self.llama.preprocess_tag("(tag) Example")

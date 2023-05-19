@@ -9,9 +9,12 @@ from llama_cpp import Llama
 
 def download_model(
     model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/ggml-model-q4_0.bin",
-    save_path=os.path.join("models", "ggml-model-q4_0.bin"),
+    save_name="ggml-model-q4_0.bin",
 ):
-    os.makedirs("models", exist_ok=True)
+    module_path = os.path.abspath(__file__)
+    save_dir = os.path.join(os.path.dirname(module_path), "..", "models")
+    os.makedirs(save_dir, exist_ok=True)
+    save_path = os.path.join(save_dir, save_name)
     wget.download(model_url, out=save_path)
 
 
@@ -35,7 +38,6 @@ class TaggerLlama(Llama):
         lora_base: str | None = None,
         lora_path: str | None = None,
         verbose: bool = True,
-        tag_list: List = [],
     ):
         super().__init__(
             model_path,
@@ -59,8 +61,11 @@ class TaggerLlama(Llama):
         self.tag_list = self.load_tags()
 
     def load_tags(self):
+        module_path = os.path.abspath(__file__)
+        lookups_dir = os.path.join(os.path.dirname(module_path), "..", "lookups")
         try:
-            with open(os.path.join("lookups", "tags.txt"), "r") as f:
+            tags_file = os.path.join(lookups_dir, "tags.txt")
+            with open(tags_file, "r") as f:
                 tag_dict = [line.strip() for line in f]
             return tag_dict
         except IOError as e:
@@ -137,7 +142,6 @@ class TaggerLlama(Llama):
         )
         raw_preds = output["choices"][0]["text"]
         print(raw_preds)
-        pred_tags = [x.strip()
-                     for x in raw_preds.split("### Tags:")[-1].split(",")]
+        pred_tags = [x.strip() for x in raw_preds.split("### Tags:")[-1].split(",")]
         corrected_tags = self.correct_tags(pred_tags, self.tag_list)
         return corrected_tags
