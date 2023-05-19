@@ -1,5 +1,4 @@
 from typing import Optional
-from llama_cpp.llama_types import Optional
 from typing import List
 import wget
 import os
@@ -14,46 +13,6 @@ def download_model(
 ):
     os.makedirs("models", exist_ok=True)
     wget.download(model_url, out=save_path)
-
-
-def load_tags():
-    try:
-        with open(os.path.join("lookups", "tags.txt"), "r") as f:
-            tag_dict = [line.strip() for line in f]
-        return tag_dict
-    except IOError as e:
-        print(f"Error loading tag dictionary: {e}")
-        return []
-
-
-def preprocess_tag(tag):
-    tag = tag.lower()
-    match = re.match(r"^([^()]*\([^()]*\))\s*.*$", tag)
-    return match.group(1) if match else tag
-
-
-def find_closest_tag(tag, threshold, tag_list, cache={}):
-    if tag in cache:
-        return cache[tag]
-
-    closest_tag = min(tag_list, key=lambda x: editdistance.eval(tag, x))
-    if editdistance.eval(tag, closest_tag) <= threshold:
-        cache[tag] = closest_tag
-        return closest_tag
-    else:
-        return None
-
-
-def correct_tags(tags, tag_list, preprocess=False):
-    if preprocess:
-        tags = (preprocess_tag(x) for x in tags)
-    corrected_tags = set()
-    for tag in tags:
-        threshold = max(1, len(tag) - 10)
-        closest_tag = find_closest_tag(tag, threshold, tag_list)
-        if closest_tag:
-            corrected_tags.add(closest_tag)
-    return sorted(list(corrected_tags))
 
 
 class TaggerLlama(Llama):
@@ -76,7 +35,7 @@ class TaggerLlama(Llama):
         lora_base: str | None = None,
         lora_path: str | None = None,
         verbose: bool = True,
-        tag_list=load_tags(),
+        tag_list: List = [],
     ):
         super().__init__(
             model_path,
@@ -97,7 +56,43 @@ class TaggerLlama(Llama):
             lora_path,
             verbose,
         )
-        self.tag_list = tag_list
+        self.tag_list = self.load_tags()
+
+    def load_tags(self):
+        try:
+            with open(os.path.join("lookups", "tags.txt"), "r") as f:
+                tag_dict = [line.strip() for line in f]
+            return tag_dict
+        except IOError as e:
+            print(f"Error loading tag dictionary: {e}")
+            return []
+
+    def preprocess_tag(self, tag):
+        tag = tag.lower()
+        match = re.match(r"^([^()]*\([^()]*\))\s*.*$", tag)
+        return match.group(1) if match else tag
+
+    def find_closest_tag(self, tag, threshold, tag_list, cache={}):
+        if tag in cache:
+            return cache[tag]
+
+        closest_tag = min(tag_list, key=lambda x: editdistance.eval(tag, x))
+        if editdistance.eval(tag, closest_tag) <= threshold:
+            cache[tag] = closest_tag
+            return closest_tag
+        else:
+            return None
+
+    def correct_tags(self, tags, tag_list, preprocess=False):
+        if preprocess:
+            tags = (self.preprocess_tag(x) for x in tags)
+        corrected_tags = set()
+        for tag in tags:
+            threshold = max(1, len(tag) - 10)
+            closest_tag = self.find_closest_tag(tag, threshold, tag_list)
+            if closest_tag:
+                corrected_tags.add(closest_tag)
+        return sorted(list(corrected_tags))
 
     def predict_tags(
         self,
@@ -142,6 +137,7 @@ class TaggerLlama(Llama):
         )
         raw_preds = output["choices"][0]["text"]
         print(raw_preds)
-        pred_tags = [x.strip() for x in raw_preds.split("### Tags:")[-1].split(",")]
-        corrected_tags = correct_tags(pred_tags, self.tag_list)
+        pred_tags = [x.strip()
+                     for x in raw_preds.split("### Tags:")[-1].split(",")]
+        corrected_tags = self.correct_tags(pred_tags, self.tag_list)
         return corrected_tags
