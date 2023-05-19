@@ -21,43 +21,15 @@ def download_model(
 class TaggerLlama(Llama):
     def __init__(
         self,
-        model_path: str,
-        n_ctx: int = 512,
-        n_parts: int = -1,
-        n_gpu_layers: int = 0,
-        seed: int = 1337,
-        f16_kv: bool = True,
-        logits_all: bool = False,
-        vocab_only: bool = False,
-        use_mmap: bool = True,
-        use_mlock: bool = False,
-        embedding: bool = False,
-        n_threads: int | None = None,
-        n_batch: int = 512,
-        last_n_tokens_size: int = 64,
-        lora_base: str | None = None,
-        lora_path: str | None = None,
-        verbose: bool = True,
+        model_path: str = None,
+        **kwargs,
     ):
-        super().__init__(
-            model_path,
-            n_ctx,
-            n_parts,
-            n_gpu_layers,
-            seed,
-            f16_kv,
-            logits_all,
-            vocab_only,
-            use_mmap,
-            use_mlock,
-            embedding,
-            n_threads,
-            n_batch,
-            last_n_tokens_size,
-            lora_base,
-            lora_path,
-            verbose,
-        )
+        if model_path is None:
+            module_path = os.path.abspath(__file__)
+            model_path = os.path.join(
+                os.path.dirname(module_path), "..", "models", "ggml-model-q4_0.bin"
+            )
+        super().__init__(model_path, **kwargs)
         self.tag_list = self.load_tags()
 
     def load_tags(self):
@@ -108,7 +80,7 @@ class TaggerLlama(Llama):
         top_p: float = 0.95,
         logprobs: Optional[int] = None,
         echo: bool = False,
-        stop: Optional[List[str]] = [],
+        stop: Optional[List[str]] = ["/n", "### Tags:"],
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,
         repeat_penalty: float = 1.1,
