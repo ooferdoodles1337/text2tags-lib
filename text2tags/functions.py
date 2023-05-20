@@ -1,21 +1,11 @@
 from typing import Optional
 from typing import List
+import tempfile
 import wget
 import os
 import editdistance
 import re
 from llama_cpp import Llama
-
-
-def download_model(
-    model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/ggml-model-q4_0.bin",
-    save_name="ggml-model-q4_0.bin",
-):
-    module_path = os.path.abspath(__file__)
-    save_dir = os.path.join(os.path.dirname(module_path), "..", "models")
-    os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, save_name)
-    wget.download(model_url, out=save_path)
 
 
 class TaggerLlama(Llama):
@@ -25,12 +15,23 @@ class TaggerLlama(Llama):
         **kwargs,
     ):
         if model_path is None:
-            module_path = os.path.abspath(__file__)
-            model_path = os.path.join(
-                os.path.dirname(module_path), "..", "models", "ggml-model-q4_0.bin"
-            )
+            model_path = os.path.join(tempfile.gettempdir(), "ggml-model-q4_0.bin")
+            self.download_model()
         super().__init__(model_path, **kwargs)
         self.tag_list = self.load_tags()
+
+    def download_model(
+        self,
+        model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/ggml-model-q4_0.bin",
+        save_name="ggml-model-q4_0.bin",
+    ):
+        save_path = os.path.join(tempfile.gettempdir(), save_name)
+        if os.path.exists(save_path):
+            print("Model already exists. Skipping download.")
+            return
+        print("Starting Download")
+        wget.download(model_url, out=save_path)
+        print("Model Downloaded")
 
     def load_tags(self):
         module_path = os.path.abspath(__file__)
@@ -117,3 +118,6 @@ class TaggerLlama(Llama):
         pred_tags = [x.strip() for x in raw_preds.split("### Tags:")[-1].split(",")]
         corrected_tags = self.correct_tags(pred_tags, self.tag_list)
         return corrected_tags
+
+model = TaggerLlama()
+print(model.predict_tags("Minato aqua with pink and blue streaked hair"))
