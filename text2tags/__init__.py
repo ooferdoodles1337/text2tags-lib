@@ -35,9 +35,9 @@ class TaggerLlama(Llama):
 
     def load_tags(self):
         module_path = os.path.abspath(__file__)
-        lookups_dir = os.path.join(os.path.dirname(module_path), "..", "lookups")
+        lookups_dir = os.path.join(os.path.dirname(module_path), "tags.txt")
         try:
-            tags_file = os.path.join(lookups_dir, "tags.txt")
+            tags_file = lookups_dir
             with open(tags_file, "r") as f:
                 tag_dict = [line.strip() for line in f]
             return tag_dict
