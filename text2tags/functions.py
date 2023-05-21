@@ -61,7 +61,7 @@ class TaggerLlama(Llama):
         else:
             return None
 
-    def correct_tags(self, tags, tag_list, preprocess=False):
+    def correct_tags(self, tags, tag_list, preprocess=True):
         if preprocess:
             tags = (self.preprocess_tag(x) for x in tags)
         corrected_tags = set()
@@ -114,10 +114,6 @@ class TaggerLlama(Llama):
             mirostat_eta=mirostat_eta,
         )
         raw_preds = output["choices"][0]["text"]
-        print(raw_preds)
-        pred_tags = [x.strip() for x in raw_preds.split("### Tags:")[-1].split(",")]
+        pred_tags = [x.strip() for x in raw_preds.split(",")]
         corrected_tags = self.correct_tags(pred_tags, self.tag_list)
         return corrected_tags
-
-model = TaggerLlama()
-print(model.predict_tags("Minato aqua with pink and blue streaked hair"))
