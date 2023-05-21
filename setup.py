@@ -6,5 +6,5 @@ setup(
     version="0.0",
     packages=find_packages(),
     install_requires=["editdistance", "llama-cpp-python", "wget"],
-    data_files=[('tags', ['text2tags/tags.txt'])],
+    package_data={"text2tags": ["tags.txt"]},
 )
