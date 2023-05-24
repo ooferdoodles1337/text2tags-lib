@@ -11,9 +11,9 @@ pip install text2tags-lib
 ## Usage
 
 ```python
-import text2tags
+from text2tags import TaggerLlama
 
-model = text2tags.TaggerLlama()
+model = TaggerLlama()
 
 tags = model.predict_tags("Minato Aqua from hololive with pink and blue twintails in a blue maid outfit")
 
