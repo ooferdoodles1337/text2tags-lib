@@ -4,6 +4,9 @@ Text2tags is a Python library that uses a finetune of Llama-7b and llama cpp to 
 
 ## Installation
 Use the package manager [pip]
+```
+pip install text2tags-ooferdoodles
+```
 
 ## Usage
 
