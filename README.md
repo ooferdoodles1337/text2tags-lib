@@ -20,6 +20,11 @@ tags = model.predict_tags("Minato Aqua from hololive with pink and blue twintail
 print(', '.join(tags))
 ```
 
+## Demos
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DatboiiPuntai/text2tags-lib/blob/master/examples/text2tags_colab.ipynb)
+[![Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/ooferdoodles/text2tags-demo)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
