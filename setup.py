@@ -9,7 +9,7 @@ setup(
     author='Pantai Suyasri',
     author_email='pantaisuyasri@gmail.com',
     url='https://github.com/DatboiiPuntai/text2tags-lib',
-    download_url='https://github.com/DatboiiPuntai/text2tags-lib/archive/refs/tags/v0.0.1.zip',
+    download_url='https://github.com/DatboiiPuntai/text2tags-lib/archive/refs/heads/master.zip',
     packages=find_packages(),
     install_requires=["editdistance", "llama-cpp-python", "wget"],
     package_data={"text2tags": ["tags.txt"]},
