@@ -4,11 +4,15 @@ from text2tags import TaggerLlama
 model = TaggerLlama()
 
 
-def predict(caption, max_tokens, temperature, top_k, top_p, repeat_penalty):
+def predict(caption, max_tokens=128, temperature=0.8, top_k=40, top_p=0.95, repeat_penalty=1.1):
     tags = model.predict_tags(caption, max_tokens=max_tokens, temperature=temperature,
                               top_k=top_k, top_p=top_p, repeat_penalty=repeat_penalty)
     return ', '.join(tags)
 
+description = """
+### Enter a caption to extract danbooru tags from it.
+[ ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ](https://github.com/DatboiiPuntai/text2tags-lib)
+"""
 
 demo = gr.Interface(
     fn=predict,
@@ -22,7 +26,7 @@ demo = gr.Interface(
     ],
     outputs="text",
     title="Text2Tags",
-    description="### Enter a caption to extract danbooru tags from it.",
+    description=description,
     examples=[
         ["Minato Aqua from hololive with pink and blue twintails in a blue maid outfit"],
     ],
