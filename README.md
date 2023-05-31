@@ -25,6 +25,9 @@ print(', '.join(tags))
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DatboiiPuntai/text2tags-lib/blob/master/examples/text2tags_colab.ipynb)
 [![Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/ooferdoodles/text2tags-demo)
 
+## Other links
+[Training Code and Data Analysis repo](https://github.com/DatboiiPuntai/Text2Tags)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
