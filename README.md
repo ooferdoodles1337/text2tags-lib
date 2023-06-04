@@ -27,7 +27,7 @@ print(', '.join(tags))
 
 ## Other links
 - [Training Code and Data Analysis](https://github.com/DatboiiPuntai/Text2Tags)
-- [Blog]([https://medium.com/p/9b820478a7d8/edit](https://medium.com/@pantaisuyasri/extracting-danbooru-tags-from-text-9b820478a7d8))
+- [Blog](https://medium.com/@pantaisuyasri/extracting-danbooru-tags-from-text-9b820478a7d8)
 
 ## License
 
