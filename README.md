@@ -26,8 +26,8 @@ print(', '.join(tags))
 [![Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/ooferdoodles/text2tags-demo)
 
 ## Other links
-[Training Code and Data Analysis](https://github.com/DatboiiPuntai/Text2Tags)
-[Blog](https://medium.com/p/9b820478a7d8/edit)
+- [Training Code and Data Analysis](https://github.com/DatboiiPuntai/Text2Tags)
+- [Blog](https://medium.com/p/9b820478a7d8/edit)
 
 ## License
 
