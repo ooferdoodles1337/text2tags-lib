@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name="text2tags-lib",
-    version="0.0.4",
+    version="0.0.5",
     license='MIT',
     description='Use a finetune of Llama-7b and llama cpp to predict Danbooru tags from natural text.',
     long_description=long_description,
