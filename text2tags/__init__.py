@@ -15,15 +15,15 @@ class TaggerLlama(Llama):
         **kwargs,
     ):
         if model_path is None:
-            model_path = os.path.join(tempfile.gettempdir(), "ggml-model-q4_0.bin")
+            model_path = os.path.join(tempfile.gettempdir(), "llama-tagger-Q4_K_M")
             self.download_model()
         super().__init__(model_path, **kwargs)
         self.tag_list = self.load_tags()
 
     def download_model(
         self,
-        model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/ggml-model-q4_0.bin",
-        save_name="ggml-model-q4_0.bin",
+        model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/llama-tagger-Q4_K_M",
+        save_name="llama-tagger-Q4_K_M",
     ):
         save_path = os.path.join(tempfile.gettempdir(), save_name)
         if os.path.exists(save_path):
