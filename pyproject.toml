@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "text2tags-lib"
-version = "0.0.6"
+version = "0.0.7"
 dependencies = [
     "editdistance",
     "llama-cpp-python==0.2.27",
@@ -12,7 +12,7 @@ dependencies = [
 ]
 description = "Use a finetune of Llama-7b and llama cpp to predict Danbooru tags from natural text."
 readme = "README.md"
-license = {file = "LICENSE.txt"}
+license = {text = "MIT License"}
 classifiers = [
   "Development Status :: 4 - Beta",
   "License :: OSI Approved :: MIT License",
@@ -23,11 +23,3 @@ classifiers = [
 Homepage = "https://github.com/DatboiiPuntai/text2tags-lib"
 Download = "https://github.com/DatboiiPuntai/text2tags-lib/archive/refs/heads/master.zip"
 Repository = "https://github.com/DatboiiPuntai/text2tags-lib"
-Bug Tracker = "https://github.com/DatboiiPuntai/text2tags-lib/issues"
-
-[project.scripts]
-text2tags-cli = "text2tags_lib:main_cli"
-
-[project.package]
-name = "text2tags"
-include = ["tags.txt"]

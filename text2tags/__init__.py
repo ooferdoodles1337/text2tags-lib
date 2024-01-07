@@ -9,7 +9,7 @@ from llama_cpp import Llama
 
 
 class TaggerLlama(Llama):
-    MODEL_URL = "https://huggingface.co/ooferdoodles/llama-tagger-7b/blob/main/llama-tagger.gguf"
+    MODEL_URL = "https://huggingface.co/ooferdoodles/llama-tagger-7b/resolve/main/llama-tagger.gguf?download=true"
     SAVE_NAME = "llama-tagger.gguf"
     TAGS_FILE_NAME = "tags.txt"
 
