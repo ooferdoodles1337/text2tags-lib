@@ -9,22 +9,30 @@ from llama_cpp import Llama
 
 
 class TaggerLlama(Llama):
+    MODEL_URL = "https://huggingface.co/ooferdoodles/llama-tagger-7b/blob/main/llama-tagger.gguf"
+    SAVE_NAME = "llama-tagger.gguf"
+    TAGS_FILE_NAME = "tags.txt"
+
+
     def __init__(
         self,
         model_path: str = None,
         **kwargs,
     ):
         if model_path is None:
-            model_path = os.path.join(tempfile.gettempdir(), "llama-tagger-Q4_K_M")
+            model_path = os.path.join(tempfile.gettempdir(), self.SAVE_NAME)
             self.download_model()
         super().__init__(model_path, **kwargs)
         self.tag_list = self.load_tags()
 
     def download_model(
         self,
-        model_url="https://huggingface.co/ooferdoodles/tagger-ggml-7b/resolve/main/llama-tagger-Q4_K_M",
-        save_name="llama-tagger-Q4_K_M",
+        model_url=None,
+        save_name=None,
     ):
+        model_url = model_url or self.MODEL_URL  # Use self.MODEL_URL
+        save_name = save_name or self.SAVE_NAME
+
         save_path = os.path.join(tempfile.gettempdir(), save_name)
         if os.path.exists(save_path):
             print("Model already exists. Skipping download.")

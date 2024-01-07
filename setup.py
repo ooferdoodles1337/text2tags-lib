@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name="text2tags-lib",
-    version="0.0.5",
+    version="0.0.6",
     license='MIT',
     description='Use a finetune of Llama-7b and llama cpp to predict Danbooru tags from natural text.',
     long_description=long_description,
@@ -15,6 +15,6 @@ setup(
     url='https://github.com/DatboiiPuntai/text2tags-lib',
     download_url='https://github.com/DatboiiPuntai/text2tags-lib/archive/refs/heads/master.zip',
     packages=find_packages(),
-    install_requires=["editdistance", "llama-cpp-python", "wget"],
+    install_requires=["editdistance", "llama-cpp-python==0.2.27", "wget"],
     package_data={"text2tags": ["tags.txt"]},
 )
